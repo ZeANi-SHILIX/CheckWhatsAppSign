@@ -1,0 +1,56 @@
+<resources>
+    <string name="app_name">מה החתימה שלי?</string>
+    <string name="title_activity_scrolling">איך מעדכנים את הוואטסאפ?</string>
+    <string name="large_text">"\nלא מצליחים להיכנס להגדרות הנוספות? תוכלו ללחוץ <b>כאן</b> לכניסה מהירה."</string>
+
+
+    <string name="sss">\nלרוב, יהיה ניתן לעדכן ישירות על האפליקצייה הקיימת מבלי שום פעולה נוספת.</string>
+    <string name="sss1">\nאך לפעמים יכולה להתקבל הודעה שגיאה בהתקנת האפליקצייה (כמו בתמונה למטה), ולכן יהיה צורך בהתקנת הוואטסאפ מחדש.</string>
+    <string name="sss2">\nעל מנת לא לאבד את הנתונים והשיחות של הוואטסאפ - יש לבצע גיבוי לכל השיחות.\nבמדריך זה יובא שימוש בגיבוי מיוחד שנמצא בהגדרות הנוספות של הפואד ואירו,\nהגיבוי נקרא בשם YoWhatsApp, ואינו מצריך את שלב האימות בשחזור השיחות.</string>
+    <string name="sss3">\nאז איך עושים גיבוי של YoWhatsApp?</string>
+    <string name="sss4">\nנכנסים לוואטסאפ, לוחצים על ה3 נקודות בשמאל למעלה, ונכנסים להגדרות של פואד/אירו.</string>
+    <string name="sss5">"\nבתפריט נכנסים ל'אוניברסלי'"</string>
+    <string name="sss6">"\nולאחר מכן ל 'גיבוי ושחזור'"</string>
+    <string name="sss7">"\nולוחצים על 'גיבוי נתוני WhatsApp'"</string>
+    <string name="sss7_5">"\nיקפוץ חלון קטן שמראה את התקדמות הגיבוי, ובסיום הוא יעלם ותופיע התראה קטנה בחלק התחתון של המכשיר שהגיבוי הצליח."</string>
+    <string name="sss8">\n2. לאחר שהגיבוי בוצע בהצלחה - מסירים את ההתקנה של הוואטסאפ הנוכחי, ומתקינים את החדש.\n</string>
+    <string name="sss8_5">(מומלץ לפני שפותחים את הגרסה החדשה, לתת את כל ההרשאות לאפליקציה דרך ההגדרות)</string>
+    <string name="sss9">\n3. כנסו לוואטסאפ החדש, ושם יופיע אפשרות לשחזר מגיבוי YoWhatsApp (בכפתור אדום)\nלוחצים עליו והשחזור יתבצע.\n</string>
+    <string name="sss10">\n\nבהצלחה! 😁\n\n</string>
+
+
+
+
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_google_ads">googleAds</string>
+
+
+    <string name="interstitial_ad_sample">Interstitial Ad Sample</string>
+    <string name="start_level">Level 1</string>
+    <string name="next_level">Next Level</string>
+    <!-- -
+        This is an ad unit ID for an interstitial test ad. Replace with your own interstitial ad unit id.
+        For more information, see https://support.google.com/admob/answer/3052638
+    <!- -->
+    <string name="interstitial_ad_unit_id">ca-app-pub-6474275493517014/6855159833</string>
+    <string name="waitforjsonload">אנא המתן...</string>
+    <string name="openLocalJSON">טוען קובץ מקומי</string>
+    <string name="openFMsetting">פותח את ההגדרות של </string>
+    <string name="fail_openFMsetting">נכשל</string>
+    <string name="checkUpdate">בדוק עדכון</string>
+    <string name="foundUpdate">נמצא עדכון!</string>
+    <string name="error">שגיאה!</string>
+    <string name="updateTo">עדכן לV</string>
+    <string name="noFoundUpdate">לא נמצא עדכון</string>
+    <string name="lastedVersionIsInstalled">במכשיר זה מותקנת הגרסה האחרונה.</string>
+    <string name="noUpdateAvailable">אין עדכון זמין</string>
+    <string name="moreSetting_FM">הגדרות נוספות</string>
+    <string name="moreInfo_btn">למידע נוסף</string>
+    <string name="officalPackage_goToStore_btn">נראה שהתקנת את הגרסה הרשמית,\n תוכל לעדכן אותה דרך החנות.</string>
+    <string name="json_local_info">מקומי</string>
+    <string name="json_github_info">ענן</string>
+    <string name="foundOneAppWA">נמצאה במכשיר זה אפליקציית וואטסאפ אחת</string>
+    <string name="foundOne_Sign">החתימה: </string>
+    <string name="noWA_onDevice">לא נמצאה אפליקציה של וואטסאפ במכשיר זה</string>
+    <string name="moreThenOneWAInstalled">במכשיר זה קיימות האפליקציות של וואטסאפ הבאות:</string>
+</resources>

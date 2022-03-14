@@ -1,0 +1,56 @@
+[
+    {
+        "Signature":"com.whatsapp",
+        "VersionFouad": 8.95,
+        "VersionAero": 8.95,
+        "VersionFouadLink": "https://t.me/YM_whatsapp/893",
+        "VersionAeroLink": "https://t.me/YM_whatsapp/895",
+        "InstalledFlag": false,
+        "random":"From Local"
+    },
+    {
+        "Signature":"com.whatsapp.w4b",
+        "VersionFouad": 8.95,
+        "VersionAero": 8.95,
+        "VersionFouadLink": "https://t.me/YM_whatsapp/893",
+        "VersionAeroLink": "https://t.me/YM_whatsapp/895",
+        "InstalledFlag": false,
+        "random":"business"
+    },
+    {
+        "Signature":"com.fmwhatsapp",
+        "VersionFouad": 8.95,
+        "VersionAero": 8.95,
+        "VersionFouadLink": "https://t.me/YM_whatsapp/892",
+        "VersionAeroLink": "VersionAeroLink",
+        "InstalledFlag": false,
+        "random":"not ok"
+    },
+    {
+        "Signature":"com.yowhatsapp",
+        "VersionFouad": 8.95,
+        "VersionAero": 8.95,
+        "VersionFouadLink": "VersionFouadLink",
+        "VersionAeroLink": "VersionAeroLink",
+        "InstalledFlag": false,
+        "random":"not ok"
+    },
+    {
+        "Signature":"com.gbwhatsapp",
+        "VersionFouad": 8.95,
+        "VersionAero": 8.95,
+        "VersionFouadLink": "VersionFouadLink",
+        "VersionAeroLink": "VersionAeroLink",
+        "InstalledFlag": false,
+        "random":"not ok"
+    },
+    {
+        "Signature":"com.aero",
+        "VersionFouad": 8.95,
+        "VersionAero": 8.95,
+        "VersionFouadLink": "VersionFouadLink",
+        "VersionAeroLink": "https://t.me/YM_whatsapp/896",
+        "InstalledFlag": false,
+        "random":"not ok"
+    }
+]
