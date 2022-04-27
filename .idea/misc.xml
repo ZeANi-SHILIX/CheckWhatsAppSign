@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/Acer/AndroidStudioProjects/CheckWhatsApp/app/src/main/res/drawable/rounded_corner.xml" value="0.15625" />
+        <entry key="..\:/Users/Acer/AndroidStudioProjects/CheckWhatsApp/app/src/main/res/layout-w1240dp/content_scrolling.xml" value="0.16331994645247658" />
+        <entry key="..\:/Users/Acer/AndroidStudioProjects/CheckWhatsApp/app/src/main/res/layout-w936dp/content_scrolling.xml" value="0.16290983606557377" />
+        <entry key="..\:/Users/Acer/AndroidStudioProjects/CheckWhatsApp/app/src/main/res/layout/activity_google_ads.xml" value="0.2115036231884058" />
+        <entry key="..\:/Users/Acer/AndroidStudioProjects/CheckWhatsApp/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/Users/Acer/AndroidStudioProjects/CheckWhatsApp/app/src/main/res/layout/activity_scrolling.xml" value="0.21603260869565216" />
+        <entry key="..\:/Users/Acer/AndroidStudioProjects/CheckWhatsApp/app/src/main/res/layout/activity_trut.xml" value="0.16683760683760684" />
+        <entry key="..\:/Users/Acer/AndroidStudioProjects/CheckWhatsApp/app/src/main/res/layout/content_scrolling.xml" value="0.21603260869565216" />
+        <entry key="..\:/Users/Acer/AndroidStudioProjects/CheckWhatsApp/app/src/main/res/menu/menu_google_ads.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Acer/AndroidStudioProjects/CheckWhatsApp/app/src/main/res/menu/menu_scrolling.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/shilo/AndroidStudioProjects/CheckWhatsApp/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/shilo/AndroidStudioProjects/CheckWhatsApp/app/src/main/res/layout/activity_trut.xml" value="0.16145833333333334" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

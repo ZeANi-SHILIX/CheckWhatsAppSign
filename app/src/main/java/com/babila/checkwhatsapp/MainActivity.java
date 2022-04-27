@@ -55,6 +55,28 @@ public class MainActivity extends AppCompatActivity {
     String stringfromgit="";
     JSONArray jsonRoot = new JSONArray();
 
+    private boolean isInstalledFromStore(String signPackage){
+        String installer = getPackageManager().getInstallerPackageName(signPackage);
+
+        if (installer.equals("com.android.vending") || installer.equals("com.google.android.feedback") ) {
+            return true;
+        }
+        //Toast.makeText(this, installer, Toast.LENGTH_SHORT).show();
+        return false;
+    }
+
+    private boolean isfouad(String info, String signName){
+        String fouad1 = "Fouad",fouad2 = "FMWhatsApp",fouad3 = "YoWhatsApp",fouad4 = "GBWhatsApp" , aero = "Aero";
+        double installedVersion = Double.parseDouble(info.replaceAll("[^\\.0123456789]",""));
+        if (info.toLowerCase().contains(fouad1.toLowerCase())||info.toLowerCase().contains(fouad2.toLowerCase())||info.toLowerCase().contains(fouad3.toLowerCase())||info.toLowerCase().contains(fouad4.toLowerCase())) {
+           return true;
+        }
+        else if (info.toLowerCase().contains(aero.toLowerCase())) {
+            return true;
+        }
+        return false;
+    }
+
     public void clickMe(View v){
         Intent browserIntent = new Intent(Intent.ACTION_VIEW);
         browserIntent.setData(Uri.parse("http://t.me/shilobabila"));
@@ -149,34 +171,38 @@ public class MainActivity extends AppCompatActivity {
         return toReturn;
     }
 
-    private TableRow createButtons(String signName, String info){
+    private TableRow createButtons(String signName, String info, boolean isStore){
         TableRow row = new TableRow(this);
         row.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
 
-        Button a = new Button(this);
-        a.setText(R.string.checkUpdate);
-        a.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+        Button checkUpdateButton = new Button(this);
+        checkUpdateButton.setText(R.string.checkUpdate);
+        checkUpdateButton.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 
-        a.setOnClickListener(new View.OnClickListener() {
+        checkUpdateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 //TODO --- add more word
+                // todo - move to list
                 String fouad1 = "Fouad",fouad2 = "FMWhatsApp",fouad3 = "YoWhatsApp",fouad4 = "GBWhatsApp" , aero = "Aero";
                 String[] needUpdate ={"",""};
-                boolean find =false;
+
                 double installedVersion = Double.parseDouble(info.replaceAll("[^\\.0123456789]",""));
 
                 // Fouad Version
+                // check every name
                 if (info.toLowerCase().contains(fouad1.toLowerCase())||info.toLowerCase().contains(fouad2.toLowerCase())||info.toLowerCase().contains(fouad3.toLowerCase())||info.toLowerCase().contains(fouad4.toLowerCase())) {
                     needUpdate = checkUpdate("Fouad", signName, installedVersion);
 
                 }
                 // Aero Version
-                if (info.toLowerCase().contains(aero.toLowerCase())) {
+                // the name Aero shown in both signatures
+                else if (info.toLowerCase().contains(aero.toLowerCase())) {
                     needUpdate = checkUpdate("Aero", signName, installedVersion);
 
                 }
+
 
                 // founded update
                 if (needUpdate[0]!="") {
@@ -221,7 +247,7 @@ public class MainActivity extends AppCompatActivity {
                             .setNegativeButton(android.R.string.no, null)
                             .setIcon(android.R.drawable.stat_sys_download)
                             .show();
-                    a.setText(getString(R.string.updateTo)+needUpdate[1]);
+                    checkUpdateButton.setText(getString(R.string.updateTo)+needUpdate[1]);
                 }
                 // not founded update
                 else {
@@ -239,13 +265,13 @@ public class MainActivity extends AppCompatActivity {
 
                             .setIcon(android.R.drawable.stat_sys_warning)
                             .show();
-                    a.setText(R.string.noUpdateAvailable);
+                    checkUpdateButton.setText(R.string.noUpdateAvailable);
                 }
 
 
             }
         });
-        a.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
+        checkUpdateButton.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
 
         Button b = new Button(this);
         b.setText(R.string.moreSetting_FM);
@@ -269,52 +295,58 @@ public class MainActivity extends AppCompatActivity {
                 myIntent.putExtra("signName", signName); //Optional parameters
                 MainActivity.this.startActivity(myIntent);
 
-                /*
-                String text="";
-                try {
-                    JSONArray json = MainActivity.this.jsonRoot;
-                    text = json.getJSONObject(0).getString("random");
-                    c.setText(text);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                */
-
             }
 
         });
         c.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
 
         if (info!=""){
-            row.addView(a);
+
+            if(!isfouad(info,signName)){
+                TextView notfromstore = new TextView(this);
+                notfromstore.setGravity(CENTER);
+                notfromstore.setText("לא הצלחתי לזהות את סוג הוואטסאפ");
+                notfromstore.setTextSize(15);
+                row.addView(notfromstore);
+            }
+            else {
+                row.addView(checkUpdateButton);
+            }
             row.addView(b);
             row.addView(c);
+
         }
-        else if (signName.toLowerCase().equals("com.whatsapp")||signName.toLowerCase().equals("com.whatsapp.w4b"))//not fouad or aero
-        {
-            /*TextView noFouad = new TextView(this);
-            noFouad.setGravity(CENTER);
-            noFouad.setText("נראה שהתקנת את הגרסה הרשמית,\n תוכל לעדכן אותה דרך החנות.");
-            noFouad.setTextSize(15);*/
+        //not fouad or aero
+        else if (signName.toLowerCase().equals("com.whatsapp")||signName.toLowerCase().equals("com.whatsapp.w4b")) {
 
-            Button store = new Button(this);
-            //store.setText("חנות\nPlay");
-            store.setText(R.string.officalPackage_goToStore_btn);
-            store.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-            store.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW);
-                    browserIntent.setData(Uri.parse("https://play.google.com/store/apps/details?id="+signName));
-                    startActivity(browserIntent);
-                }
-            });
-            store.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
-
-            Button trut = new Button(this);
-            trut.setText("מדריך מעבר\nלוואטסאפ אחר");
-            trut.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-            trut.setOnClickListener(new View.OnClickListener() {
+            //text or button
+            //button when it from store
+            if(!isStore){
+                TextView notfromstore = new TextView(this);
+                notfromstore.setGravity(CENTER);
+                notfromstore.setText("לא הצלחתי לזהות את סוג הוואטסאפ");
+                notfromstore.setTextSize(15);
+                row.addView(notfromstore);
+            }
+            else {
+                Button store = new Button(this);
+                store.setText(R.string.officalPackage_goToStore_btn);
+                store.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+                store.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW);
+                        browserIntent.setData(Uri.parse("https://play.google.com/store/apps/details?id=" + signName));
+                        startActivity(browserIntent);
+                    }
+                });
+                store.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
+                row.addView(store);
+            }
+            Button tutorialButton = new Button(this);
+            tutorialButton.setText("מדריך מעבר\nלוואטסאפ אחר");
+            tutorialButton.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+            tutorialButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent browserIntent = new Intent(Intent.ACTION_VIEW);
@@ -322,12 +354,9 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(browserIntent);
                 }
             });
-            trut.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
+            tutorialButton.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
 
-
-            //row.addView(noFouad);
-            row.addView(store);
-            row.addView(trut);
+            row.addView(tutorialButton);
         }
 
 
@@ -391,6 +420,7 @@ public class MainActivity extends AppCompatActivity {
         TableLayout tl = (TableLayout) findViewById(R.id.tablelayout);
         JSONArray jsonRoot = new JSONArray();
         TextView source = findViewById(R.id.source);
+        boolean isFromStore = false;
 
 
         try {
@@ -414,6 +444,7 @@ public class MainActivity extends AppCompatActivity {
         */
         int counterSigh = 0;
         String Signature ="",first="";
+
         for (int i =0; i < jsonRoot.length();i++){
             try {
                 Signature = jsonRoot.getJSONObject(i).getString("Signature");
@@ -424,6 +455,12 @@ public class MainActivity extends AppCompatActivity {
                     if (counterSigh==1) {
                         first = Signature;
                     }
+
+                    // check if the app installed from google play
+                    if (isInstalledFromStore(Signature)){
+                        jsonRoot.getJSONObject(i).put("InstalledFromStore", true);
+                    }
+                    isFromStore = Boolean.parseBoolean(jsonRoot.getJSONObject(i).getString("InstalledFromStore"));
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -447,7 +484,7 @@ public class MainActivity extends AppCompatActivity {
                 tl.addView(tvInfo);
             }
 
-            tl.addView(createButtons(first,info),new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
+            tl.addView(createButtons(first,info, isFromStore),new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
         }
         //not found
         else if (counterSigh==0){
@@ -481,7 +518,8 @@ public class MainActivity extends AppCompatActivity {
                             tl.addView(tvInfo);
 
                         }
-                        tl.addView(createButtons(Signature, info));
+                        isFromStore = Boolean.parseBoolean(jsonRoot.getJSONObject(i).getString("InstalledFromStore"));
+                        tl.addView(createButtons(Signature, info, isFromStore));
                         tl.addView(padding(70));
                     }
                 } catch (JSONException e) {

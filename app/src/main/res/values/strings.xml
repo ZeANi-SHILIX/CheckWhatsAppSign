@@ -50,7 +50,7 @@
     <string name="json_local_info">מקומי</string>
     <string name="json_github_info">ענן</string>
     <string name="foundOneAppWA">נמצאה במכשיר זה אפליקציית וואטסאפ אחת</string>
-    <string name="foundOne_Sign">החתימה: </string>
+    <string name="foundOne_Sign"> החתימה: </string>
     <string name="noWA_onDevice">לא נמצאה אפליקציה של וואטסאפ במכשיר זה</string>
     <string name="moreThenOneWAInstalled">במכשיר זה קיימות האפליקציות של וואטסאפ הבאות:</string>
 </resources>
