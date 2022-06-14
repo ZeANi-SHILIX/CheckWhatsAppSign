@@ -26,7 +26,7 @@ public class TrutActivity extends AppCompatActivity {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         } catch (Exception e){
-            Toast.makeText(this, R.string.fail_openFMsetting,
+            Toast.makeText(this, R.string.fail_openMODsetting,
                     Toast.LENGTH_LONG).show();
         }
 

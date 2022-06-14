@@ -36,7 +36,7 @@
     <string name="waitforjsonload">אנא המתן...</string>
     <string name="openLocalJSON">טוען קובץ מקומי</string>
     <string name="openFMsetting">פותח את ההגדרות של </string>
-    <string name="fail_openFMsetting">נכשל</string>
+    <string name="fail_openMODsetting">לא הצלחתי לפתוח את ההגדרות הנוספות</string>
     <string name="checkUpdate">בדוק עדכון</string>
     <string name="foundUpdate">נמצא עדכון!</string>
     <string name="error">שגיאה!</string>
@@ -45,7 +45,8 @@
     <string name="lastedVersionIsInstalled">במכשיר זה מותקנת הגרסה האחרונה.</string>
     <string name="noUpdateAvailable">אין עדכון זמין</string>
     <string name="moreSetting_FM">הגדרות נוספות</string>
-    <string name="moreInfo_btn">למידע נוסף</string>
+    <string name="openApp">פתח את הוואטסאפ</string>
+    <string name="howtoupdate_btn">איך מעדכנים?</string>
     <string name="officalPackage_goToStore_btn">נראה שהתקנת את הגרסה הרשמית,\n תוכל לעדכן אותה דרך החנות.</string>
     <string name="json_local_info">מקומי</string>
     <string name="json_github_info">ענן</string>

@@ -48,6 +48,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Objects;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -65,13 +66,17 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
-    private boolean isfouad(String info, String signName){
+    private boolean isWaMOD(String info, String signName){
         String fouad1 = "Fouad",fouad2 = "FMWhatsApp",fouad3 = "YoWhatsApp",fouad4 = "GBWhatsApp" , aero = "Aero";
         double installedVersion = Double.parseDouble(info.replaceAll("[^\\.0123456789]",""));
         if (info.toLowerCase().contains(fouad1.toLowerCase())||info.toLowerCase().contains(fouad2.toLowerCase())||info.toLowerCase().contains(fouad3.toLowerCase())||info.toLowerCase().contains(fouad4.toLowerCase())) {
            return true;
         }
         else if (info.toLowerCase().contains(aero.toLowerCase())) {
+            return true;
+        }
+        // YM
+        else if (info.toLowerCase().contains("Version".toLowerCase()) || info.toLowerCase().contains("גרסה")){
             return true;
         }
         return false;
@@ -124,26 +129,43 @@ public class MainActivity extends AppCompatActivity {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         } catch (Exception e){
-            Toast.makeText(this, R.string.fail_openFMsetting,
+            Toast.makeText(this, R.string.fail_openMODsetting,
                     Toast.LENGTH_LONG).show();
         }
 
     }
+    private void gotoYMSetting(String sighApp){
 
+        Toast.makeText(this, getString(R.string.openFMsetting)+sighApp,
+                Toast.LENGTH_SHORT).show();
+
+        Intent intent = new Intent();
+        intent.setComponent(new ComponentName(sighApp,"com.whatsapp.Main"));
+
+        try {
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        } catch (Exception e){
+            Toast.makeText(this, R.string.fail_openMODsetting,
+                    Toast.LENGTH_LONG).show();
+            Log.e("Error", "gotoYMSetting: ",e );
+        }
+
+    }
+
+    // app installed on device?
     private boolean isAppInstalled(String packageName) {
         PackageManager pm = getPackageManager();
-        boolean installed = false;
         try {
-            pm.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES);
-            installed = true;
+            pm.getPackageInfo(packageName, 0);
+            return true;
         } catch (PackageManager.NameNotFoundException e) {
-            installed = false;
+            return false;
         }
-        return installed;
     }
 
     private String[] checkUpdate(String modType, String modSign , double installedVer){
-        String linkToUpdate ="checking";
+        String linkToUpdate ="linkToUpdate";
         double lastetVer =3.2;
 
         for (int i=0;i< jsonRoot.length();i++){
@@ -156,19 +178,20 @@ public class MainActivity extends AppCompatActivity {
                         linkToUpdate ="";
                     }
                     //Toast.makeText(this,"Last: "+lastetVer+"\nInstalled: "+installedVer,Toast.LENGTH_LONG).show();
-
                 }
-
 
             } catch (JSONException e){
                 e.printStackTrace();
             }
 
         }
-        String[] toReturn = {linkToUpdate,lastetVer+""};
-
-
-        return toReturn;
+        @SuppressLint("DefaultLocale") String lastetVer_format;
+        if (modType.equals("YM")){
+            lastetVer_format = String.format("%.1f", lastetVer);
+        } else {
+            lastetVer_format = String.format("%.2f", lastetVer);
+        }
+        return new String[]{linkToUpdate,lastetVer_format};
     }
 
     private TableRow createButtons(String signName, String info, boolean isStore){
@@ -179,56 +202,65 @@ public class MainActivity extends AppCompatActivity {
         checkUpdateButton.setText(R.string.checkUpdate);
         checkUpdateButton.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 
+        final String[] WAtype = new String[1];
+        //TODO --- add more word
+        // todo - move to list
+        String fouad1 = "Fouad",fouad2 = "FMWhatsApp",fouad3 = "YoWhatsApp",fouad4 = "GBWhatsApp" , aero = "Aero";
+        String[] needUpdate ={"linkToUpdate","lastetVer"};
+
+
+        double installedVersion = Double.parseDouble(info.replaceAll("[^\\.0123456789]",""));
+
+        // Fouad Version
+        // check every name
+        if (info.toLowerCase().contains(fouad1.toLowerCase())||info.toLowerCase().contains(fouad2.toLowerCase())||info.toLowerCase().contains(fouad3.toLowerCase())||info.toLowerCase().contains(fouad4.toLowerCase())) {
+            needUpdate = checkUpdate("Fouad", signName, installedVersion);
+            WAtype[0] = "Fouad";
+        }
+        // Aero Version
+        // the name Aero shown in both signatures
+        else if (info.toLowerCase().contains(aero.toLowerCase())) {
+            needUpdate = checkUpdate("Aero", signName, installedVersion);
+            WAtype[0] = "Fouad"; // Aero base on fouad
+        }
+        // YM Version
+        else if (info.contains("גרסה") || info.toLowerCase().contains("Version".toLowerCase())){
+            needUpdate = checkUpdate("YM", signName, installedVersion);
+            WAtype[0] = "YM";
+        }
+
+        String[] finalNeedUpdate = needUpdate;
         checkUpdateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                //TODO --- add more word
-                // todo - move to list
-                String fouad1 = "Fouad",fouad2 = "FMWhatsApp",fouad3 = "YoWhatsApp",fouad4 = "GBWhatsApp" , aero = "Aero";
-                String[] needUpdate ={"",""};
-
-                double installedVersion = Double.parseDouble(info.replaceAll("[^\\.0123456789]",""));
-
-                // Fouad Version
-                // check every name
-                if (info.toLowerCase().contains(fouad1.toLowerCase())||info.toLowerCase().contains(fouad2.toLowerCase())||info.toLowerCase().contains(fouad3.toLowerCase())||info.toLowerCase().contains(fouad4.toLowerCase())) {
-                    needUpdate = checkUpdate("Fouad", signName, installedVersion);
-
-                }
-                // Aero Version
-                // the name Aero shown in both signatures
-                else if (info.toLowerCase().contains(aero.toLowerCase())) {
-                    needUpdate = checkUpdate("Aero", signName, installedVersion);
-
+                @SuppressLint("DefaultLocale") String installedVersion_format;
+                if (WAtype[0].equals("YM")){
+                    installedVersion_format = String.format("%.1f", installedVersion);
+                } else {
+                    installedVersion_format = String.format("%.2f", installedVersion);
                 }
 
+                // founded update (link empty if didn't found)
+                if (!finalNeedUpdate[0].equals("")) {
+                    String message = "במכשיר זה מותקנת הגרסה V"+installedVersion_format+"\nקיימת גרסה חדשה יותר V"+ finalNeedUpdate[1]+"\n\nהאם תרצה להוריד את העדכון כעת?";
+                    String NeedUpdate = finalNeedUpdate[0];
 
-                // founded update
-                if (needUpdate[0]!="") {
-                    String message = "במכשיר זה מותקנת הגרסה V"+installedVersion+"\nקיימת גרסה חדשה יותר V"+needUpdate[1]+"\n\nהאם תרצה להוריד את העדכון כעת?";
-                    String finalNeedUpdate = needUpdate[0];
                     new AlertDialog.Builder(MainActivity.this)
                             .setTitle(R.string.foundUpdate)
                             .setMessage(message)
-
-                            // Specifying a listener allows you to take an action before dismissing the dialog.
-                            // The dialog is automatically dismissed when a dialog button is clicked.
                             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     // Check if its URL
                                     try {
                                         Intent browserIntent = new Intent(Intent.ACTION_VIEW);
-                                        browserIntent.setData(Uri.parse(finalNeedUpdate));
+                                        browserIntent.setData(Uri.parse(NeedUpdate));
                                         startActivity(browserIntent);
                                     } catch (Exception e){
                                         e.printStackTrace();
+
                                         new AlertDialog.Builder(MainActivity.this)
                                                 .setTitle(R.string.error)
                                                 .setMessage("חלה שגיאה בפתיחת הקישור. \n\nתוכלו לחפש את העדכון בערוץ או לשאול בקבוצת התמיכה.")
-
-                                                // Specifying a listener allows you to take an action before dismissing the dialog.
-                                                // The dialog is automatically dismissed when a dialog button is clicked.
                                                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                                     public void onClick(DialogInterface dialog, int which) {
                                                         // Continue with delete operation
@@ -247,7 +279,7 @@ public class MainActivity extends AppCompatActivity {
                             .setNegativeButton(android.R.string.no, null)
                             .setIcon(android.R.drawable.stat_sys_download)
                             .show();
-                    checkUpdateButton.setText(getString(R.string.updateTo)+needUpdate[1]);
+                    checkUpdateButton.setText(getString(R.string.updateTo)+ finalNeedUpdate[1]);
                 }
                 // not founded update
                 else {
@@ -275,18 +307,29 @@ public class MainActivity extends AppCompatActivity {
 
         Button b = new Button(this);
         b.setText(R.string.moreSetting_FM);
-
         b.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-        b.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                gotoFmSetting(signName);
-            }
-        });
+
+        if (WAtype[0].equals("Fouad")){
+            b.setText(R.string.moreSetting_FM);
+            b.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    gotoFmSetting(signName);
+                }
+            });
+        } else if (WAtype[0].equals("YM")) {
+            b.setText(R.string.openApp);
+            b.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    gotoYMSetting(signName);
+                }
+            });
+        }
         b.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
 
         Button c = new Button(this);
-        c.setText(R.string.moreInfo_btn);
+        c.setText(R.string.howtoupdate_btn);
         c.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -300,9 +343,10 @@ public class MainActivity extends AppCompatActivity {
         });
         c.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
 
-        if (info!=""){
+        // info is "" when cant get info
+        if (!Objects.equals(info, "")){
 
-            if(!isfouad(info,signName)){
+            if(!isWaMOD(info,signName)){
                 TextView notfromstore = new TextView(this);
                 notfromstore.setGravity(CENTER);
                 notfromstore.setText("לא הצלחתי לזהות את סוג הוואטסאפ");
@@ -311,16 +355,16 @@ public class MainActivity extends AppCompatActivity {
             }
             else {
                 row.addView(checkUpdateButton);
+                row.addView(b); // open app
             }
-            row.addView(b);
-            row.addView(c);
+
+            row.addView(c); // how to update button
 
         }
-        //not fouad or aero
+        // is not a MOD, and the following sign
         else if (signName.toLowerCase().equals("com.whatsapp")||signName.toLowerCase().equals("com.whatsapp.w4b")) {
 
-            //text or button
-            //button when it from store
+            // text
             if(!isStore){
                 TextView notfromstore = new TextView(this);
                 notfromstore.setGravity(CENTER);
@@ -328,6 +372,7 @@ public class MainActivity extends AppCompatActivity {
                 notfromstore.setTextSize(15);
                 row.addView(notfromstore);
             }
+            // button when it from store
             else {
                 Button store = new Button(this);
                 store.setText(R.string.officalPackage_goToStore_btn);
@@ -405,8 +450,18 @@ public class MainActivity extends AppCompatActivity {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
+
+        // Fouad WhatsApp
         if(null != res) {
             int sId = res.getIdentifier(appSign+":string/yowav", null, null);
+            if(0 != sId) {
+                x= res.getString(sId);
+            }
+        }
+
+        // YM WhatsApp
+        if(null != res) {
+            int sId = res.getIdentifier(appSign+":string/ymwa_about_version", null, null);
             if(0 != sId) {
                 x= res.getString(sId);
             }
@@ -449,6 +504,7 @@ public class MainActivity extends AppCompatActivity {
             try {
                 Signature = jsonRoot.getJSONObject(i).getString("Signature");
                 boolean doExist = isAppInstalled(Signature);
+                Log.d("info: check", Signature + "> doExist? " + doExist);
                 if (doExist) {
                     jsonRoot.getJSONObject(i).put("InstalledFlag", true);
                     counterSigh++;
@@ -458,8 +514,10 @@ public class MainActivity extends AppCompatActivity {
 
                     // check if the app installed from google play
                     if (isInstalledFromStore(Signature)){
+                        // set value
                         jsonRoot.getJSONObject(i).put("InstalledFromStore", true);
                     }
+                    // get value
                     isFromStore = Boolean.parseBoolean(jsonRoot.getJSONObject(i).getString("InstalledFromStore"));
                 }
             } catch (JSONException e) {
@@ -474,9 +532,10 @@ public class MainActivity extends AppCompatActivity {
             tl.addView(makeTitle(getString(R.string.foundOneAppWA),R.color.found1));
 
             tl.addView(padding(50));
-            tl.addView(makeTitle(getString(R.string.foundOne_Sign)+first,R.color.found1sign));
+            tl.addView(makeTitle(getString(R.string.foundOne_Sign)+" "+first,R.color.found1sign));
 
             String info = get_FM_Info(first);
+            Log.d("info: ", first + "> only one > " + info);
             if (info!=""){
                 tl.addView(padding(10));
                 TextView tvInfo = makeTitle(info,R.color.found_more_sign);
@@ -493,6 +552,7 @@ public class MainActivity extends AppCompatActivity {
         }
         //found more then one
         else if (counterSigh>1){
+
             tl.addView(padding(20));
             tl.addView(makeTitle(getString(R.string.moreThenOneWAInstalled), R.color.foundmore));
             tl.addView(padding(50));
@@ -506,6 +566,7 @@ public class MainActivity extends AppCompatActivity {
                     if (doexist){
                         Signature = jsonRoot.getJSONObject(i).getString("Signature");
                         String info = get_FM_Info(Signature);
+                        Log.d("info: ", Signature + "> " + info);
 
                         //tl.addView(makeTitle(ListWaExist[i]+"",R.color.found_more_sign));
                         tl.addView(makeTitle(Signature,R.color.foundmorelist));

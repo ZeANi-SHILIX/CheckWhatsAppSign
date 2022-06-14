@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.babila.checkwhatsapp">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- Include required permissions for Google Mobile Ads to run. -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -13,6 +12,7 @@
         <package android:name="com.android.chrome" />
         <package android:name="com.whatsapp" />
         <package android:name="com.whatsapp.w4b" />
+        <package android:name="com.whatsapp.w4y" />
         <package android:name="com.fmwhatsapp" />
         <package android:name="com.yowhatsapp" />
         <package android:name="com.gbwhatsapp" />
